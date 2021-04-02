@@ -14,12 +14,12 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }))
 
-const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@cluster0.ew9hc.mongodb.net/${process.env.DB}?retryWrites=true&w=majority`;
+const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@cluster0.ew9hc.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`;
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 client.connect(err => {
   console.log('connection err', err);
-  const itemCollection = client.db("foodAnywhere").collection("items");
-  const orderedItemCollection = client.db("foodAnywhere").collection("orderedItems");
+  const itemCollection = client.db(process.env.DB_NAME).collection("items");
+  const orderedItemCollection = client.db(process.env.DB_NAME).collection("orderedItems");
   //get
   app.get('/home', (req, res) => {
     itemCollection.find()
